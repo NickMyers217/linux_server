@@ -5,7 +5,7 @@ In order to SSH into the server you will need the following information:
 - The SSH port on the server is set at: **2200**
 - Access of the root user is disabled, so you will need to log in as the user named **grader**
 - Using the correct private key, you can SSH in as shown below:
-``` shell
+```sh
 ssh -i /path/to/key.rsa grader@52.24.42.61 -p 2200
 ```
 ### Server URL
@@ -13,7 +13,7 @@ You can connect to the server at [http://ec2-52-24-42-61.us-west-2.compute.amazo
 ### Configuration Summary
 * SSH'ed into the server as root
 * Created a new user named grader, and set up SSH for them
-``` shell
+```sh
 adduser grader
 su grader
 cd ~
@@ -24,30 +24,30 @@ chmod 600 .ssh/authorized_keys
 exit
 cat ~/.ssh/authorized_keys > /home/grader/.ssh/authorized_keys
 ```
-* Give the grader the permission to sudo, disable loggin in as root, then SSH in as the grader
-``` shell
+* Gave the grader the permission to sudo, disabled login in as root, then SSH'ed in as the grader
+```sh
 touch /etc/sudoers.d/grader
 echo "%grader ALL=(ALL:ALL) ALL" > /etc/sudoers.d/grader
 vim /etc/ssh/sshd_config # set root access to no
 exit
 ssh -i ~/.ssh/udacity_key.rsa grader@52.24.42.61
 ```
-* Update all currently installed packages
-``` shell
+* Updated all currently installed packages
+```sh
 sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get autoremove
 ```
-* Change the SSH port from 22 to 2200
-``` shell
+* Changed the SSH port from 22 to 2200
+```sh
 cd /etc/ssh
 sudo vim sshd_config
 sudo service ssh restart
 exit
 ssh -i ~/.ssh/udacity_key.rsa grader@52.24.42.61 -p 2200
 ```
-* Configure the Uncomplicated Firewall (UFW) to only allow incoming connections for SSH (port 2200), HTTP (port 80), and NTP (port 123)
-``` shell
+* Configured the Uncomplicated Firewall (UFW) to only allow incoming connections for SSH (port 2200), HTTP (port 80), and NTP (port 123)
+```sh
 sudo ufw status
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
@@ -59,19 +59,19 @@ sudo ufw status
 exit
 ssh -i ~/.ssh/udacity_key.rsa grader@52.24.42.61 -p 2200
 ```
-* Configure the local timezone to UTC
-``` shell
+* Configured the local timezone to UTC
+```sh
 sudo dpkg-reconfigure tzdata # Chose UTC time
 ```
-* Install and configure Apache to serve a Python mod_wsgi application
-``` shell
+* Installer and configured Apache to serve a Python mod_wsgi application
+```sh
 sudo apt-get install apache2 libapache2-mod-wsgi
 sudo vim /etc/apache2/sites-enabled/000-default.conf # Modified this configuration to run an app
 sudo vim /var/www/myapp.wsgi
 sudo apache2ctl restart
 ```
-* Install and configure PostgreSQL
-``` shell
+* Installed and configured PostgreSQL
+```sh
 sudo apt-get install postgresql postgresql-server-dev-all
 sudo -i -u postgres
 createuser --interactive # Created a psql role called catalog with limited permissions
@@ -81,12 +81,12 @@ psql
 \q
 exit
 ```
-* Create a new user named catalog that has limited permissions to your catalog application database
-``` shell
+* Created a new user named catalog that has limited permissions to the catalog application database
+```sh
 sudo adduser catalog # Created the catalog user on the system
 ```
-* Install git, clone and setup your Catalog App project so that it functions correctly when visiting your server’s IP address in a browser.
-``` shell
+* Installed git, cloned and setup the Catalog App so that it functions correctly when visiting the server’s IP address in a browser.
+```sh
 sudo apt-get install git # install git
 sudo apt-get install python-pip python-dev libpq-dev # install pip and some python related software
 sudo pip install sqlalchemy flask psycopg2 httplib2 oauth2client # install python libraries
